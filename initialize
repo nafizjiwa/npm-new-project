@@ -1,0 +1,51 @@
+//jshint esversion: 6
+//When starting a new project you will always be useing express and bodyParser
+//Steps 1-2 are to Set up a new project
+//1. Require the modules we installed ()
+const requests = require('requests');
+const bodyParser = require('body-parser');
+const express = require('express');
+
+
+//2.Setup server to listen to port 3000 but first create our app constant
+//2.a.the app constant is equal to a new instance of express
+const app = express();
+//4. in order for server to serve static pages like stylesheets and images on local files
+//We need to use a special function of express call static
+//make a static folder (to keep all static files) with goes in the parenthese of .static
+app.use(express.static("public"));
+//6. Lets log some of the things the user entered into the from
+//6.a. Since bodyParser has already been required we can use it to get the data
+//6.b. So tell the app to use bodyParser by saying app.user
+app.use(bodyParser.urlencoded({extended:true}));
+//3. set up the get method for our home route then test it on the home browser at host 3000
+// specify the route - use the home route "/"
+//Add callback function with req and res
+app.get("/", function (req,res){
+  //3.a. specify our response is to send the file at the location of the directory name of current file plus
+  //3.b. the string signup.html
+  res.sendFile(__dirname + "/signup.html");
+});
+//5. program the post route (create post route)
+//5.a. by using body-parser to grab data from the sign up form
+//5.b. then console log it from the server. first wetarget the home route "/"
+app.post("/", function(req,res){
+//7. Next pull the inputs from the form which were inputed
+//7.a. creat a variable
+//7.b. now pull up the values entered by referring to the name ="" set up in html by using bodyParser
+//8. Must make sure the form is referred to as POST and the action is set up
+//8.a. action = "/" and  method = "POST" So information gets posted to
+// the location requested here "/"
+var firstName = req.body.fname;
+var lastName = req.body.lName;
+var email = req.body.email;
+
+console.log(firstName, lastName, email);
+})
+
+//2.b.use the app to listen on port 3000
+//2.b.Once port is set up it notify by logging server is running
+//2.b. visit local host 3000 to view site set up with server
+app.listen(3000, function() {
+  console.log("Server is running on port 3000");
+});
